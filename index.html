@@ -9,8 +9,17 @@
 </head>
 <body>
     <div id="jogo">
-        <H1 id="dica">Dica:</H1>
+        <H1 id="titulo">Palavras Embaralhadas</H1>
+        <H2 id="dica"></H2>
     </div>
+    <div id="dificuldade">
+        <h2>Dificuldade: </h2>
+        <input type="radio" name="dificuldade" value="facil" oninput="dif='facil';Embaralha();GeraBotoes();">
+        <label>Fácil</label>
+        <input type="radio" name="dificuldade" value="medio" oninput="dif='medio';Embaralha();GeraBotoes();">
+        <label>Médio</label>
+        <input type="radio" name="dificuldade" value="dificil" oninput="dif='dificil';Embaralha();GeraBotoes();">
+        <label>Difícil</label>
     <script src="PalavrasEmbaralhadas.js"></script>
 </body>
 </html>
