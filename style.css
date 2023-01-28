@@ -6,6 +6,7 @@
     font-size: 25px;
     margin: 2px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 #jogo{
     margin:auto;
@@ -34,5 +35,29 @@
     background: #8A8A8A;
     border-radius: 5px;
     padding: 5px;
+    text-align: center;
+}
+.instr{
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 20px;
+    margin: 2px;
+    cursor: pointer;
+    margin-bottom: 7px;
+    border: 1px solid black;
+
+}
+#instr{
+    width: 300px;
+    word-break: break-word;
+    margin: auto;
+}
+#titulo{
+    border-bottom: inset;
+}
+body{
+    align-items: center;
     text-align: center;
 }
