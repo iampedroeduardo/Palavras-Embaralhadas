@@ -4,18 +4,39 @@ function SorteiaTema(){
 	temas.splice(n,1);
 }
 function Testa(palavra,embaralhada){
-	tof=true
-	console.log(embaralhada);
+	cont=0;
 	for(c=0;c<palavra.length;c++){
 		if(palavra[c]==embaralhada[c]){
-			tof=false
+			cont++
 		}
 	}
-	return tof;
+	return cont;
+}
+function Sorteia(min,max){
+	v=[];
+	for(c=min;c<=max;c++){
+		v.push(c);
+	}
+	console.log(v);
+	n=Math.floor(Math.random()*v.length);
+	return v[n];
 }
 function Embaralha(){
 	palavras=tema[1]+tema[2]+tema[3];
 	embaralhada=palavras;
+	if(dif=="facil"){
+		min=7;
+		max=10;
+	}
+	else if(dif=="medio"){
+		min=3;
+		max=5;
+	}
+	else if(dif=="dificil"){
+		min=0;
+		max=3;
+	}
+	certas=Sorteia(min,max);
 	do{
 		n1=Math.floor(Math.random()*embaralhada.length);
 		n2=Math.floor(Math.random()*embaralhada.length);
@@ -25,13 +46,10 @@ function Embaralha(){
 		else if(n1>n2){
 			embaralhada=embaralhada.substring(0,n2)+embaralhada[n1]+embaralhada.substring(n2+1,n1)+embaralhada[n2]+embaralhada.substring(n1+1);
 		}
-	}while(Testa(palavras,embaralhada)==false)
-	console.log(embaralhada);
+	}while(Testa(palavras,embaralhada)!=certas)
 	embaralhadas[0]=embaralhada.substr(0,tema[1].length);
 	embaralhadas[1]=embaralhada.substr(tema[1].length,tema[2].length);
 	embaralhadas[2]=embaralhada.substr(tema[1].length+tema[2].length,tema[3].length);
-	console.log(tema);
-	console.log(embaralhadas);
 }
 function CapsLock(){
 	for(c=0;c<temas.length;c++){
@@ -57,6 +75,18 @@ function GeraBotoes(){
 		br=document.createElement("br");
 		div.appendChild(br);
 	}
+	document.getElementById("dica").innerHTML="Dica: "+tema[0];
+	dica=document.getElementById("titulo");
+	botao=document.createElement("input");
+	botao.setAttribute("type","button");
+	botao.setAttribute("id","instrucoes");
+	botao.setAttribute("value","?");
+	botao.setAttribute("class","instr")
+	botao.setAttribute("onclick","Instrucoes();")
+	dica.appendChild(botao);
+	TestaLetras();
+	dif=document.getElementById("dificuldade");
+	dif.parentNode.removeChild(dif);
 }
 function Destaca(){
 	pala=posicoes[posicoes.length-1][0];
@@ -110,15 +140,27 @@ function TestaLetras(){
 			botao=document.getElementById(""+c+i);
 			if(botao.value==tema[c+1][i]){
 				botao.style.border="2px solid lawngreen";
+				botao.removeAttribute("onclick");
 			}
 		}
+	}
+}
+function Instrucoes(){
+	div=document.getElementById("jogo");
+	if(document.getElementById("instr")==null){
+		p=document.createElement("p");
+		p.id="instr"
+		texto=document.createTextNode("Você deve selecionar duas letras para trocarem de lugar a cada rodada. Se elas estiverem no lugar correto suas bordas ficarão verdes. Você ganha quando todas as palavras estiverem organizadas.");
+		p.appendChild(texto);
+		div.appendChild(p);
+	}
+	else{
+		p=document.getElementById("instr");
+		p.parentNode.removeChild(p);
 	}
 }
 var temas=[["CHURRASCO","arroz","salada","picanha"],["FILMES","cinema","direcao","roteiro"],["MUSICA","batida","letra","performance"],["HARRY POTTER","rony","neville","hermione"],["MARVEL","groot","rocket","gilgamesh"],["BRASIL","samba","corrupcao","amazonia"],["TRABALHO","caneta","contrato","escrivaninha"],["PERCY JACKSON","deuses","semideus","acampamento"],["LIVRO","pagina","paragrafo","diagramacao"],["SENTIMENTOS","raiva","alegria","tristeza"]];
 var tema, embaralhadas=[], posicoes=[];
 CapsLock();
 SorteiaTema();
-Embaralha();
-GeraBotoes();
-document.getElementById("dica").innerHTML+=tema[0];
 
