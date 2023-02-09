@@ -52,6 +52,7 @@ function Embaralha(){
 	embaralhadas[2]=embaralhada.substr(tema[1].length+tema[2].length,tema[3].length);
 }
 function CapsLock(){
+	console.log(temas);
 	for(c=0;c<temas.length;c++){
 		for(i=0;i<4;i++){
 			temas[c][i]=temas[c][i].toUpperCase();
@@ -63,12 +64,19 @@ function GeraBotoes(){
 	for(c=0;c<3;c++){
 		for(i=0;i<embaralhadas[c].length;i++){
 			botao=document.createElement("input");
-			on="posicoes.push(["+c+","+i+"]);Destaca();if(posicoes.length%2==0){Troca();}";
-			botao.setAttribute("onclick",on);
+			//on="posicoes.push(["+c+","+i+"]);Destaca();if(posicoes.length%2==0){Troca();}";
+			//botao.setAttribute("onclick",on);
 			botao.setAttribute("type","button");
 			botao.setAttribute("value",embaralhadas[c][i]);
 			botao.setAttribute("id",""+c+i);
 			botao.setAttribute("class","botao");
+			botao.setAttribute("draggable","true");
+			botao.addEventListener("dragstart",dragStart);
+			botao.addEventListener("dragover",dragOver);
+			botao.addEventListener("dragenter",dragEnter);
+			botao.addEventListener("dragleave",dragLeave);
+			botao.addEventListener("drop",dragDrop);
+			botao.addEventListener("dragend",dragEnd);
 			botao.style.border="1px solid red";
 			div.appendChild(botao);
 		}
@@ -140,7 +148,8 @@ function TestaLetras(){
 			botao=document.getElementById(""+c+i);
 			if(botao.value==tema[c+1][i]){
 				botao.style.border="2px solid lawngreen";
-				botao.removeAttribute("onclick");
+				botao.removeAttribute("draggable");
+				botao.setAttribute("droppable","false");
 			}
 		}
 	}
@@ -159,8 +168,50 @@ function Instrucoes(){
 		p.parentNode.removeChild(p);
 	}
 }
-var temas=[["CHURRASCO","arroz","salada","picanha"],["FILMES","cinema","direcao","roteiro"],["MUSICA","batida","letra","performance"],["HARRY POTTER","rony","neville","hermione"],["MARVEL","groot","rocket","gilgamesh"],["BRASIL","samba","corrupcao","amazonia"],["TRABALHO","caneta","contrato","escrivaninha"],["PERCY JACKSON","deuses","semideus","acampamento"],["LIVRO","pagina","paragrafo","diagramacao"],["SENTIMENTOS","raiva","alegria","tristeza"]];
-var tema, embaralhadas=[], posicoes=[];
+function Detecta(event){
+	tecla=event.key;
+	palavra+=tecla;
+	if(palavra.length==2){
+		c=palavra[0]-1;
+		i=palavra[1]-1;
+		posicoes.push([c,i]);
+		Destaca();
+		if(posicoes.length%2==0){
+			Troca();
+		}
+		palavra="";
+	}	
+}
+function dragStart(){
+	pl=this;
+	console.log(pl);
+}
+function dragOver(e){
+	e.preventDefault();
+}
+function dragLeave(e){
+	e.preventDefault();
+}
+function dragEnter(e){
+	e.preventDefault();
+}
+function dragDrop(){
+	ul=this;
+	console.log(ul);
+}
+function dragEnd(){
+	var l1=pl.value;
+	var l2=ul.value;
+	if(ul.style.border!="2px solid lawngreen"){
+		pl.value=l2;
+		ul.value=l1;
+	}
+	TestaLetras();
+	TestaFinal();
+}
+var temas=[["CHURRASCO","arroz","salada","picanha"],["FILMES","cinema","direcao","roteiro"],["MUSICA","batida","letra","performance"],["BRASIL","samba","corrupcao","amazonia"],["TRABALHO","caneta","contrato","escrivaninha"],["LIVRO","pagina","paragrafo","diagramacao"],["SENTIMENTOS","raiva","alegria","tristeza"]];
+var tema, embaralhadas=[], posicoes=[], palavra="", pl, ul;
 CapsLock();
 SorteiaTema();
+console.log(document.getElementById("body"))
 
